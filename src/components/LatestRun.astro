@@ -1,0 +1,18 @@
+---
+import RunDetails from "./../components/RunDetails.astro";
+const run = {
+  title: "Some run",
+  date: "2023-08-30",
+  hoursOfSleep: 8,
+  timeElapsed: "30:00",
+  distanceCovered: "3",
+  averagePace: "10:00",
+  tags: ["Some run 2023", "Workout"],
+};
+---
+
+<div class="tw-container tw-mx-auto">
+  <RunDetails run={run}>
+    123 <br /> Another Test
+  </RunDetails>
+</div>

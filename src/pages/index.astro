@@ -1,21 +1,31 @@
 ---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import LatestRun from "./../components/LatestRun.astro";
+const pageTitle = "Home Page";
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Run Journal</title>
-  </head>
-  <body>
-    <h1>Run Journal</h1>
+<BaseLayout pageTitle={pageTitle}>
+  <div class="tw-container tw-mx-auto tw-px-4">
+    <h1 class="tw-font-black tw-text-4xl tw-mb-2">Latest Run</h1>
+    <LatestRun />
 
-    <div>Latest run</div>
+    <h2 class="tw-font-black tw-text-4xl tw-mb-2 tw-mt-8">Grouped Runs</h2>
+    <div
+      class="tw-grid tw-grid-cols-1 md:tw-grid-cols-3 tw-gap-2.5 tw-justify-center"
+    >
+      <a
+        class="tw-border tw-border-black tw-border-solid tw-text-center tw-p-4 hover:tw-bg-black hover:tw-text-white tw-transition-all tw-duration-300"
+        href="#">Fun Run October</a
+      >
+      <a
+        class="tw-border tw-border-black tw-border-solid tw-text-center tw-p-4 hover:tw-bg-black hover:tw-text-white tw-transition-all tw-duration-300"
+        href="#">Fun Run December</a
+      >
 
-    <div>Grouped Runs</div>
-
-    <div>Run Workouts | Run Events</div>
-  </body>
-</html>
+      <a
+        class="tw-border tw-border-black tw-border-solid tw-text-center tw-p-4 hover:tw-bg-black hover:tw-text-white tw-transition-all tw-duration-300"
+        href="#">Fun Run January</a
+      >
+    </div>
+  </div>
+</BaseLayout>

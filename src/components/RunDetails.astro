@@ -1,0 +1,44 @@
+---
+const { run } = Astro.props;
+const options = { dateStyle: "long" };
+const dateObject = new Date(run.date);
+const formattedDate = new Intl.DateTimeFormat("en-PH", options).format(
+  dateObject
+);
+---
+
+<div class="tw-border tw-border-solid tw-border-black tw-rounded-xl tw-p-4">
+  <h2 class="tw-font-black tw-text-2xl tw-mb-8">
+    {run.title} - {formattedDate}
+  </h2>
+
+  <div class="tw-mb-4">
+    <p class="tw-text-xl">{run.hoursOfSleep} Hrs</p>
+    <h3 class="tw-text-sm tw-font-bold">Sleep</h3>
+  </div>
+
+  <div class="tw-grid tw-grid-cols-3 tw-mb-4">
+    <div class="tw-text-xl">
+      {run.timeElapsed}
+      <h3 class="tw-text-sm tw-font-bold">Total Time</h3>
+    </div>
+    <div class="tw-text-xl">
+      {run.distanceCovered} km
+      <h3 class="tw-text-sm tw-font-bold">Distance</h3>
+    </div>
+    <div class="tw-text-xl">
+      {run.averagePace} /km
+      <h3 class="tw-text-sm tw-font-bold">Avg Pace</h3>
+    </div>
+  </div>
+
+  <div class="tw-mb-4">
+    <h3 class="tw-text-sm tw-font-bold">Remarks</h3>
+    <slot />
+  </div>
+
+  <h3 class="tw-text-sm tw-font-bold">Tags</h3>
+  <div class="tw-flex tw-gap-2.5">
+    {run.tags.map((item) => <a href="#">{item}</a>)}
+  </div>
+</div>
