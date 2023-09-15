@@ -1,7 +1,7 @@
 ---
 import RunDetails from "./../components/RunDetails.astro";
 const allPosts = await Astro.glob("./../pages/runs/**/*.md");
-
+allPosts.reverse(); // reverse array in order to get the latest entry first
 const run = {
   title: allPosts[0].frontmatter.title,
   date: allPosts[0].frontmatter.date,
@@ -11,7 +11,6 @@ const run = {
   averagePace: allPosts[0].frontmatter.averagePace,
   tags: allPosts[0].frontmatter.tags,
 };
-
 const content = await allPosts[0].rawContent();
 ---
 
