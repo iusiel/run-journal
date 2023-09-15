@@ -1,0 +1,20 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import RunDetails from "../components/RunDetails.astro";
+const { frontmatter } = Astro.props;
+const run = {
+  title: frontmatter.title,
+  date: frontmatter.date,
+  hoursOfSleep: frontmatter.hoursOfSleep,
+  timeElapsed: frontmatter.timeElapsed,
+  distanceCovered: frontmatter.distanceCovered,
+  averagePace: frontmatter.averagePace,
+  tags: frontmatter.tags,
+};
+---
+
+<BaseLayout pageTitle={frontmatter.title}>
+  <div class="tw-container tw-mx-auto">
+    <RunDetails run={run}><slot /></RunDetails>
+  </div>
+</BaseLayout>
