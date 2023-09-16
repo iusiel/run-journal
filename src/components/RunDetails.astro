@@ -39,6 +39,6 @@ const formattedDate = new Intl.DateTimeFormat("en-PH", options).format(
 
   <h3 class="tw-text-sm tw-font-bold">Tags</h3>
   <div class="tw-flex tw-gap-2.5">
-    {run.tags.map((item) => <a href="#">{item}</a>)}
+    {run.tags.map((tag) => <a href={`tags/${tag}`}>{tag}</a>)}
   </div>
 </div>
