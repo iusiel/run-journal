@@ -1,0 +1,28 @@
+---
+import RunDetails from "./../components/RunDetails.astro";
+const allPosts = await Astro.glob("./../pages/runs/**/*.md");
+const tags = [...new Set(allPosts.map((post) => post.frontmatter.tags).flat())];
+const tagsToRemove = ["Workout", "Event"];
+const filteredTags = tags.filter((tag) => {
+  return tagsToRemove.indexOf(tag) === -1;
+});
+---
+
+<div class="tw-container tw-mx-auto">
+  <h2 class="tw-font-black tw-text-4xl tw-mb-2 tw-mt-8">Grouped Runs</h2>
+
+  <div
+    class="tw-grid tw-grid-cols-1 md:tw-grid-cols-3 tw-gap-2.5 tw-justify-center"
+  >
+    {
+      filteredTags.map((tag) => (
+        <a
+          class="tw-border tw-border-black tw-border-solid tw-text-center tw-p-4 hover:tw-bg-black hover:tw-text-white tw-transition-all tw-duration-300"
+          href={`/tags/${tag}`}
+        >
+          {tag}
+        </a>
+      ))
+    }
+  </div>
+</div>

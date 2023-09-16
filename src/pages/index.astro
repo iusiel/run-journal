@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import LatestRun from "./../components/LatestRun.astro";
 import PreviousRuns from "./../components/PreviousRuns.astro";
+import GroupedRuns from "./../components/GroupedRuns.astro";
 
 const pageTitle = "Home Page";
 ---
@@ -13,23 +14,6 @@ const pageTitle = "Home Page";
 
     <PreviousRuns />
 
-    <h2 class="tw-font-black tw-text-4xl tw-mb-2 tw-mt-8">Grouped Runs</h2>
-    <div
-      class="tw-grid tw-grid-cols-1 md:tw-grid-cols-3 tw-gap-2.5 tw-justify-center"
-    >
-      <a
-        class="tw-border tw-border-black tw-border-solid tw-text-center tw-p-4 hover:tw-bg-black hover:tw-text-white tw-transition-all tw-duration-300"
-        href="#">Fun Run October</a
-      >
-      <a
-        class="tw-border tw-border-black tw-border-solid tw-text-center tw-p-4 hover:tw-bg-black hover:tw-text-white tw-transition-all tw-duration-300"
-        href="#">Fun Run December</a
-      >
-
-      <a
-        class="tw-border tw-border-black tw-border-solid tw-text-center tw-p-4 hover:tw-bg-black hover:tw-text-white tw-transition-all tw-duration-300"
-        href="#">Fun Run January</a
-      >
-    </div>
+    <GroupedRuns />
   </div>
 </BaseLayout>
