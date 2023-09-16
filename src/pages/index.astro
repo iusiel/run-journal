@@ -1,6 +1,8 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import LatestRun from "./../components/LatestRun.astro";
+import PreviousRuns from "./../components/PreviousRuns.astro";
+
 const pageTitle = "Home Page";
 ---
 
@@ -8,6 +10,8 @@ const pageTitle = "Home Page";
   <div class="tw-container tw-mx-auto tw-px-4">
     <h1 class="tw-font-black tw-text-4xl tw-mb-2">Latest Run</h1>
     <LatestRun />
+
+    <PreviousRuns />
 
     <h2 class="tw-font-black tw-text-4xl tw-mb-2 tw-mt-8">Grouped Runs</h2>
     <div
