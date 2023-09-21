@@ -1,0 +1,49 @@
+---
+import RunDetails from "./../components/RunDetails.astro";
+const allPosts = await Astro.glob("./../pages/runs/**/*.md");
+let mileages = {};
+allPosts.reverse();
+allPosts.forEach((post) => {
+  // console.log(post.frontmatter.date);
+  const date = new Date(post.frontmatter.date);
+  const options = { month: "long", year: "numeric" };
+  const objectKey = new Intl.DateTimeFormat("en-US", options).format(date);
+  if (!mileages.hasOwnProperty(objectKey)) {
+    mileages[objectKey] = [];
+  }
+  mileages[objectKey].push(post.frontmatter.distanceCovered);
+});
+
+const mileageToArray = Object.entries(mileages).map((mileage) => {
+  const [period, mileageArray] = mileage;
+
+  const totalMileage = mileageArray.reduce(
+    (accumulator, currentValue) =>
+      parseFloat(accumulator) + parseFloat(currentValue),
+    0
+  );
+
+  return [period, totalMileage];
+});
+
+const periodsToShow = 6; //show last 6 periods/months
+---
+
+<div class="tw-container tw-mx-auto">
+  <h2 class="tw-font-black tw-text-4xl tw-mb-2 tw-mt-8">
+    Monthly Mileage - Last 6 Months
+  </h2>
+  <div
+    class="tw-grid tw-grid-cols-2 md:tw-grid-cols-3 lg:tw-grid-cols-6 tw-gap-2.5"
+  >
+    {
+      mileageToArray.slice(0, periodsToShow).map((mileage) => (
+        <div class="tw-border tw-border-black tw-border-solid tw-p-4 tw-text-center">
+          <p class="tw-font-black tw-text-5xl">{mileage[1]}</p>
+          <p class="tw-text-xl">km</p>
+          <h3 class="tw-mt-2">{mileage[0]}</h3>
+        </div>
+      ))
+    }
+  </div>
+</div>
