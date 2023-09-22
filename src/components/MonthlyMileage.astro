@@ -4,7 +4,6 @@ const allPosts = await Astro.glob("./../pages/runs/**/*.md");
 let mileages = {};
 allPosts.reverse();
 allPosts.forEach((post) => {
-  // console.log(post.frontmatter.date);
   const date = new Date(post.frontmatter.date);
   const options = { month: "long", year: "numeric" };
   const objectKey = new Intl.DateTimeFormat("en-US", options).format(date);
@@ -45,5 +44,8 @@ const periodsToShow = 6; //show last 6 periods/months
         </div>
       ))
     }
+  </div>
+  <div class="tw-mt-6 tw-text-center">
+    <a href="/mileage">See all</a>
   </div>
 </div>

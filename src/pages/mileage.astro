@@ -1,0 +1,72 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const pageTitle = "Mileage Breakdown";
+
+let mileages = {};
+const allPosts = await Astro.glob("./../pages/runs/**/*.md");
+allPosts.reverse();
+allPosts.forEach((post) => {
+  const date = new Date(post.frontmatter.date);
+  const fullYear = date.getFullYear();
+  const options = { month: "long", year: "numeric" };
+  const objectKey = new Intl.DateTimeFormat("en-US", options).format(date);
+  if (!mileages.hasOwnProperty(fullYear)) {
+    mileages[fullYear] = {};
+  }
+  if (!mileages[fullYear].hasOwnProperty(objectKey)) {
+    mileages[fullYear][objectKey] = [];
+  }
+  mileages[fullYear][objectKey].push(post.frontmatter.distanceCovered);
+});
+
+const mileageToArray = Object.entries(mileages).map((mileage) => {
+  const [year, monthsUnderYear] = mileage;
+
+  const monthsArray = Object.entries(monthsUnderYear).map((month) => {
+    const [period, mileageArray] = month;
+
+    const totalMileage = mileageArray.reduce(
+      (accumulator, currentValue) =>
+        parseFloat(accumulator) + parseFloat(currentValue),
+      0
+    );
+
+    return [period, totalMileage];
+  });
+
+  const yearlyMileage = monthsArray.reduce(
+    (accumulator, currentValue) =>
+      parseFloat(accumulator) + parseFloat(currentValue[1]),
+    0
+  );
+
+  return [year, monthsArray, yearlyMileage];
+});
+mileageToArray.reverse();
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <div class="tw-container tw-mx-auto tw-px-4">
+    <h1 class="tw-font-black tw-text-4xl">Mileage Breakdown</h1>
+
+    {
+      mileageToArray.map((mileage) => (
+        <div class="tw-mt-6">
+          <h2 class="tw-font-black tw-text-4xl tw-mb-4">
+            {mileage[0]} ({mileage[2]}km)
+          </h2>
+          <div class="tw-grid tw-grid-cols-2 md:tw-grid-cols-3 lg:tw-grid-cols-6 tw-gap-2.5">
+            {mileage[1].map((month) => (
+              <div class="tw-border tw-border-black tw-border-solid tw-p-4 tw-text-center">
+                <p class="tw-font-black tw-text-5xl">{month[1]}</p>
+                <p class="tw-text-xl">km</p>
+                <h3 class="tw-mt-2">{month[0]}</h3>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</BaseLayout>
