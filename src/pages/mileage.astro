@@ -5,7 +5,11 @@ const pageTitle = "Mileage Breakdown";
 
 let mileages = {};
 const allPosts = await Astro.glob("./../pages/runs/**/*.md");
-allPosts.reverse();
+allPosts.sort((a, b) => {
+  // to make sure that oldest filename shows up first
+  return parseInt(a.url.split("/").pop()) - parseInt(b.url.split("/").pop());
+});
+
 allPosts.forEach((post) => {
   const date = new Date(post.frontmatter.date);
   const fullYear = date.getFullYear();
