@@ -21,6 +21,10 @@ export async function getStaticPaths() {
 const { tag } = Astro.params;
 const pageTitle = `Tagged Runs: ${tag}`;
 const { posts } = Astro.props;
+posts.sort((a, b) => {
+  // to make sure that latest filename shows up first
+  return parseInt(b.url.split("/").pop()) - parseInt(a.url.split("/").pop());
+});
 const runs = posts.map((element) => {
   return {
     title: element.frontmatter.title,

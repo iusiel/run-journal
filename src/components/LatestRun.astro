@@ -1,7 +1,10 @@
 ---
 import RunDetails from "./../components/RunDetails.astro";
-const allPosts = await Astro.glob("./../pages/runs/**/*.md");
-allPosts.reverse(); // reverse array in order to get the latest entry first
+let allPosts = await Astro.glob("./../pages/runs/**/*.md");
+allPosts.sort((a, b) => {
+  // to make sure that latest filename shows up first
+  return parseInt(b.url.split("/").pop()) - parseInt(a.url.split("/").pop());
+});
 const run = {
   title: allPosts[0].frontmatter.title,
   date: allPosts[0].frontmatter.date,
