@@ -1,8 +1,13 @@
 ---
 import RunDetails from "./../components/RunDetails.astro";
 const allPosts = await Astro.glob("./../pages/runs/**/*.md");
+
+allPosts.sort((a, b) => {
+  // to make sure that latest filename shows up first
+  return parseInt(b.url.split("/").pop()) - parseInt(a.url.split("/").pop());
+});
+
 let mileages = {};
-allPosts.reverse();
 allPosts.forEach((post) => {
   const date = new Date(post.frontmatter.date);
   const options = { month: "long", year: "numeric" };
