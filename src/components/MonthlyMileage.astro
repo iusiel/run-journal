@@ -22,7 +22,7 @@ const mileageToArray = Object.entries(mileages).map((mileage) => {
     0
   );
 
-  return [period, totalMileage];
+  return [period, totalMileage.toFixed(2)];
 });
 
 const periodsToShow = 6; //show last 6 periods/months

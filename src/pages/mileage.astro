@@ -32,7 +32,7 @@ const mileageToArray = Object.entries(mileages).map((mileage) => {
       0
     );
 
-    return [period, totalMileage];
+    return [period, totalMileage.toFixed(2)];
   });
 
   const yearlyMileage = monthsArray.reduce(
@@ -41,7 +41,7 @@ const mileageToArray = Object.entries(mileages).map((mileage) => {
     0
   );
 
-  return [year, monthsArray, yearlyMileage];
+  return [year, monthsArray, yearlyMileage.toFixed(2)];
 });
 mileageToArray.reverse();
 ---
