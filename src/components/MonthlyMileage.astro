@@ -23,7 +23,7 @@ const mileageToArray = Object.entries(mileages).map((mileage) => {
 
   const totalMileage = mileageArray.reduce(
     (accumulator, currentValue) =>
-      parseFloat(accumulator) + parseFloat(currentValue),
+      parseFloat(accumulator, 10) + parseFloat(currentValue, 10),
     0
   );
 
