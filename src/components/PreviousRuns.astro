@@ -34,10 +34,6 @@ const previousRuns = slicedRuns.map((element) => {
 <div class="tw-container tw-mx-auto">
   <h2 class="tw-font-black tw-text-4xl tw-mb-2 tw-mt-8">Previous Runs</h2>
   <div class="tw-grid md:tw-grid-cols-2 tw-gap-6">
-    {
-      previousRuns.map((run) => (
-        <RunDetails run={run}>{run.content}</RunDetails>
-      ))
-    }
+    {previousRuns.map((run) => <RunDetails run={run} set:html={run.content} />)}
   </div>
 </div>

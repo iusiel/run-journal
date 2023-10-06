@@ -15,10 +15,9 @@ const run = {
   tags: allPosts[0].frontmatter.tags,
 };
 const content = await allPosts[0].rawContent();
+console.log(content);
 ---
 
 <div class="tw-container tw-mx-auto">
-  <RunDetails run={run}>
-    {content}
-  </RunDetails>
+  <RunDetails set:html={content} run={run} />
 </div>
