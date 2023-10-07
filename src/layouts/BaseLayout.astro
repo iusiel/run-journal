@@ -29,12 +29,10 @@ const favicon =
     <script>
       if (window.location.hostname === "iusiel.github.io") {
         document.querySelectorAll("a").forEach((element) => {
-          element.addEventListener("click", (event) => {
-            event.preventDefault();
-            window.location.href = `/run-journal${element.getAttribute(
-              "href"
-            )}`;
-          });
+          element.setAttribute(
+            "href",
+            `/run-journal${element.getAttribute("href")}`
+          );
         });
       }
     </script>
