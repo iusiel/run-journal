@@ -5,6 +5,13 @@ const dateObject = new Date(run.date);
 const formattedDate = new Intl.DateTimeFormat("en-PH", options).format(
   dateObject
 );
+const splittedHours = run.hoursOfSleep.split(":");
+const [hours, minutes] = splittedHours;
+let percentage = (minutes / 60).toFixed(1);
+if (isNaN(percentage)) {
+  percentage = 0;
+}
+const hoursOfSleepPercentage = parseFloat(hours) + parseFloat(percentage);
 ---
 
 <div class="tw-border tw-border-solid tw-border-black tw-rounded-xl tw-p-4">
@@ -13,7 +20,9 @@ const formattedDate = new Intl.DateTimeFormat("en-PH", options).format(
   </h2>
 
   <div class="tw-mb-4">
-    <p class="tw-text-xl">{run.hoursOfSleep} Hrs</p>
+    <p class="tw-text-xl">
+      {hoursOfSleepPercentage} Hrs - ({run.hoursOfSleep})
+    </p>
     <h3 class="tw-text-sm tw-font-bold">Sleep</h3>
   </div>
 
