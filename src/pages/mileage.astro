@@ -63,7 +63,9 @@ mileageToArray.reverse();
           <div class="tw-grid tw-grid-cols-2 md:tw-grid-cols-3 lg:tw-grid-cols-6 tw-gap-2.5">
             {mileage[1].map((month) => (
               <div class="tw-border tw-border-black tw-border-solid tw-p-4 tw-text-center">
-                <p class="tw-font-black tw-text-5xl">{month[1]}</p>
+                <p class="tw-font-black tw-text-4xl md:tw-text-5xl">
+                  {month[1]}
+                </p>
                 <p class="tw-text-xl">km</p>
                 <h3 class="tw-mt-2">{month[0]}</h3>
               </div>
