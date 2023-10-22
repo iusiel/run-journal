@@ -26,7 +26,7 @@ const previousRuns = slicedRuns.map((element) => {
     distanceCovered: element.frontmatter.distanceCovered,
     averagePace: element.frontmatter.averagePace,
     tags: element.frontmatter.tags,
-    content: element.rawContent(),
+    content: element.compiledContent(),
   };
 });
 ---

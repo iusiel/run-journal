@@ -14,7 +14,7 @@ const run = {
   averagePace: allPosts[0].frontmatter.averagePace,
   tags: allPosts[0].frontmatter.tags,
 };
-const content = await allPosts[0].rawContent();
+const content = await allPosts[0].compiledContent();
 ---
 
 <div class="tw-container tw-mx-auto">
