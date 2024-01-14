@@ -3,7 +3,11 @@ module.exports = {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
   prefix: "tw-",
   theme: {
-    extend: {},
+    extend: {
+      gridTemplateRows: {
+        mainGrid: "1fr max-content",
+      },
+    },
   },
   plugins: [],
 };
