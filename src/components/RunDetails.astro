@@ -12,42 +12,82 @@ if (isNaN(percentage)) {
   percentage = 0;
 }
 const hoursOfSleepPercentage = parseFloat(hours) + parseFloat(percentage);
+
+let allPosts = await Astro.glob("./../pages/runs/**/*.md");
+allPosts.sort((a, b) => {
+  // to make sure that latest filename shows up first
+  const [, , yearA, runNumberA] = a.url.split("/");
+  const [, , yearB, runNumberB] = b.url.split("/");
+
+  return (
+    parseInt(`${yearB}${runNumberB.padStart(3, "0")}`) -
+    parseInt(`${yearA}${runNumberA.padStart(3, "0")}`)
+  );
+});
+
+const runIndex =
+  Astro.url.pathname === "/"
+    ? 0
+    : allPosts.findIndex((post) => {
+        return post.url === Astro.url.pathname;
+      });
+
+let previousLink = "";
+try {
+  previousLink = allPosts[runIndex + 1].url;
+} catch (error) {
+  previousLink = false;
+}
+
+let nextLink = "";
+try {
+  nextLink = allPosts[runIndex - 1].url;
+} catch (error) {
+  nextLink = false;
+}
 ---
 
-<div class="tw-border tw-border-solid tw-border-black tw-rounded-xl tw-p-4">
-  <h2 class="tw-font-black tw-text-2xl tw-mb-8">
-    {run.title} - {formattedDate}
-  </h2>
+<div class="tw-grid tw-grid-rows-mainGrid tw-h-screen">
+  <div class="tw-border tw-border-solid tw-border-black tw-p-4">
+    <h2 class="tw-font-black tw-text-2xl tw-mb-8">
+      {run.title} - {formattedDate}
+    </h2>
 
-  <div class="tw-mb-4">
-    <p class="tw-text-xl">
-      {hoursOfSleepPercentage} Hrs - ({run.hoursOfSleep})
-    </p>
-    <h3 class="tw-text-sm tw-font-bold">Sleep</h3>
+    <div class="tw-grid tw-grid-cols-3 tw-mb-4">
+      <div class="tw-text-3xl">
+        {run.timeElapsed}
+        <h3 class="tw-text-sm tw-font-bold">Total Time</h3>
+      </div>
+      <div class="tw-text-3xl">
+        {run.distanceCovered} km
+        <h3 class="tw-text-sm tw-font-bold">Distance</h3>
+      </div>
+      <div class="tw-text-3xl">
+        {run.averagePace} /km
+        <h3 class="tw-text-sm tw-font-bold">Avg Pace</h3>
+      </div>
+    </div>
+
+    <div class="tw-mb-4">
+      <p class="tw-text-3xl">
+        {hoursOfSleepPercentage} Hrs - ({run.hoursOfSleep})
+      </p>
+      <h3 class="tw-text-sm tw-font-bold">Sleep</h3>
+    </div>
+
+    <div class="tw-mb-4">
+      <h3 class="tw-text-sm tw-font-bold">Remarks</h3>
+      <slot />
+    </div>
+
+    <h3 class="tw-text-sm tw-font-bold">Tags</h3>
+    <div class="tw-flex tw-gap-2.5">
+      {run.tags.map((tag) => <a href={`/tags/${tag}`}>{tag}</a>)}
+    </div>
   </div>
 
-  <div class="tw-grid tw-grid-cols-3 tw-mb-4">
-    <div class="tw-text-xl">
-      {run.timeElapsed}
-      <h3 class="tw-text-sm tw-font-bold">Total Time</h3>
-    </div>
-    <div class="tw-text-xl">
-      {run.distanceCovered} km
-      <h3 class="tw-text-sm tw-font-bold">Distance</h3>
-    </div>
-    <div class="tw-text-xl">
-      {run.averagePace} /km
-      <h3 class="tw-text-sm tw-font-bold">Avg Pace</h3>
-    </div>
-  </div>
-
-  <div class="tw-mb-4">
-    <h3 class="tw-text-sm tw-font-bold">Remarks</h3>
-    <slot />
-  </div>
-
-  <h3 class="tw-text-sm tw-font-bold">Tags</h3>
-  <div class="tw-flex tw-gap-2.5">
-    {run.tags.map((tag) => <a href={`/tags/${tag}`}>{tag}</a>)}
+  <div class="tw-flex tw-justify-center tw-gap-5 tw-my-4">
+    {previousLink ? <a href={previousLink}>Previous</a> : ""}
+    {nextLink ? <a href={nextLink}>Next</a> : ""}
   </div>
 </div>
