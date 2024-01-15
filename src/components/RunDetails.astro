@@ -13,6 +13,7 @@ if (isNaN(percentage)) {
 }
 const hoursOfSleepPercentage = parseFloat(hours) + parseFloat(percentage);
 
+/** sort posts by filename */
 let allPosts = await Astro.glob("./../pages/runs/**/*.md");
 allPosts.sort((a, b) => {
   // to make sure that latest filename shows up first
@@ -24,12 +25,18 @@ allPosts.sort((a, b) => {
     parseInt(`${yearA}${runNumberA.padStart(3, "0")}`)
   );
 });
+/** END - sort posts by filename */
+
+/** Determine previous link and next link of current post */
+const stripTrailingSlash = (str) => {
+  return str.endsWith("/") ? str.slice(0, -1) : str;
+};
 
 const runIndex =
   Astro.url.pathname === "/"
     ? 0
     : allPosts.findIndex((post) => {
-        return post.url === Astro.url.pathname;
+        return post.url === stripTrailingSlash(Astro.url.pathname);
       });
 
 let previousLink = "";
@@ -45,6 +52,7 @@ try {
 } catch (error) {
   nextLink = false;
 }
+/** END -  Determine previous link and next link of current post */
 ---
 
 <div class="tw-grid tw-grid-rows-mainGrid tw-h-screen">
@@ -52,7 +60,6 @@ try {
     <h2 class="tw-font-black tw-text-2xl tw-mb-8">
       {run.title} - {formattedDate}
     </h2>
-
     <div class="tw-grid tw-grid-cols-3 tw-mb-4">
       <div class="tw-text-3xl">
         {run.timeElapsed}
