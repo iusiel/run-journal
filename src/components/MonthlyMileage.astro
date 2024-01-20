@@ -4,13 +4,19 @@ const allPosts = await Astro.glob("./../pages/runs/**/*.md");
 
 allPosts.sort((a, b) => {
   // to make sure that latest filename shows up first
-  return parseInt(b.url.split("/").pop()) - parseInt(a.url.split("/").pop());
+  const [, , yearA, runNumberA] = a.url.split("/");
+  const [, , yearB, runNumberB] = b.url.split("/");
+
+  return (
+    parseInt(`${yearB}${runNumberB.padStart(3, "0")}`) -
+    parseInt(`${yearA}${runNumberA.padStart(3, "0")}`)
+  );
 });
 
 let mileages = {};
 allPosts.forEach((post) => {
   const date = new Date(post.frontmatter.date);
-  const options = { month: "long", year: "numeric" };
+  const options = { year: "numeric", month: "long" };
   const objectKey = new Intl.DateTimeFormat("en-US", options).format(date);
   if (!mileages.hasOwnProperty(objectKey)) {
     mileages[objectKey] = [];
@@ -33,24 +39,21 @@ const mileageToArray = Object.entries(mileages).map((mileage) => {
 const periodsToShow = 6; //show last 6 periods/months
 ---
 
-<div class="tw-container tw-mx-auto">
-  <h2 class="tw-font-black tw-text-4xl tw-mb-2 tw-mt-8">
-    Monthly Mileage - Last 6 Months
-  </h2>
-  <div
-    class="tw-grid tw-grid-cols-2 md:tw-grid-cols-3 lg:tw-grid-cols-6 tw-gap-2.5"
-  >
+<div class="tw-my-4">
+  <h2 class="tw-font-black tw-text-xl">Monthly Mileage - Last 6 Months</h2>
+  <div class="tw-grid tw-gap-1">
     {
       mileageToArray.slice(0, periodsToShow).map((mileage) => (
-        <div class="tw-border tw-border-black tw-border-solid tw-p-4 tw-text-center">
-          <p class="tw-font-black tw-text-4xl md:tw-text-5xl">{mileage[1]}</p>
-          <p class="tw-text-xl">km</p>
-          <h3 class="tw-mt-2">{mileage[0]}</h3>
-        </div>
+        <>
+          <p>
+            <b class="tw-font-bold">{mileage[1]}</b> km - {mileage[0]}
+          </p>
+        </>
       ))
     }
   </div>
-  <div class="tw-mt-6 tw-text-center">
-    <a href="/mileage">See all</a>
+
+  <div class="tw-mt-1">
+    <a href="/mileage">See all monthly mileages</a>
   </div>
 </div>

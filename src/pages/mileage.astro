@@ -6,8 +6,14 @@ const pageTitle = "Mileage Breakdown";
 let mileages = {};
 const allPosts = await Astro.glob("./../pages/runs/**/*.md");
 allPosts.sort((a, b) => {
-  // to make sure that oldest filename shows up first
-  return parseInt(a.url.split("/").pop()) - parseInt(b.url.split("/").pop());
+  // to make sure that latest filename shows up first
+  const [, , yearA, runNumberA] = a.url.split("/");
+  const [, , yearB, runNumberB] = b.url.split("/");
+
+  return (
+    parseInt(`${yearB}${runNumberB.padStart(3, "0")}`) -
+    parseInt(`${yearA}${runNumberA.padStart(3, "0")}`)
+  );
 });
 
 allPosts.forEach((post) => {

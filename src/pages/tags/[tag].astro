@@ -23,7 +23,13 @@ const pageTitle = `Tagged Runs: ${tag}`;
 const { posts } = Astro.props;
 posts.sort((a, b) => {
   // to make sure that latest filename shows up first
-  return parseInt(b.url.split("/").pop()) - parseInt(a.url.split("/").pop());
+  const [, , yearA, runNumberA] = a.url.split("/");
+  const [, , yearB, runNumberB] = b.url.split("/");
+
+  return (
+    parseInt(`${yearB}${runNumberB.padStart(3, "0")}`) -
+    parseInt(`${yearA}${runNumberA.padStart(3, "0")}`)
+  );
 });
 const runs = posts.map((element) => {
   return {

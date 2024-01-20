@@ -1,0 +1,119 @@
+---
+import MonthlyMileage from "./MonthlyMileage.astro";
+---
+
+<script type="module">
+  import { createApp } from "https://unpkg.com/petite-vue?module";
+
+  createApp({
+    // exposed to all expressions
+    $delimiters: ["[[", "]]"],
+    isVisible: false,
+
+    // methods
+    openMenu() {
+      this.isVisible = true;
+    },
+
+    closeMenu() {
+      this.isVisible = false;
+    },
+
+    removeTwHiddenFromNavigation() {
+      document.getElementById("navigation").classList.remove("tw-hidden");
+    },
+  }).mount("#navigation");
+</script>
+
+<style>
+  .open-menu-button {
+    display: grid;
+    gap: 5px;
+
+    span {
+      width: 40px;
+      border-top: 5px solid #000;
+    }
+  }
+
+  .nav-menu-bg {
+    position: fixed;
+    background: rgba(0, 0, 0, 0.6);
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+  }
+
+  .nav-menu {
+    background: #fff;
+    height: 100%;
+    max-width: 300px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-rows: min-content;
+    @apply tw-p-4;
+  }
+</style>
+
+<div
+  id="navigation"
+  class="tw-flex tw-content-center tw-items-center tw-ml-4 tw-hidden"
+  @vue:mounted="removeTwHiddenFromNavigation"
+>
+  <button class="open-menu-button" @click="openMenu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  <div v-if="isVisible" class="nav-menu-bg">
+    <nav class="nav-menu">
+      <div class="tw-flex tw-justify-end tw-mb-4">
+        <button @click="closeMenu">
+          <svg
+            class="tw-w-10 tw-h-10"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            ><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g
+              id="SVGRepo_tracerCarrier"
+              stroke-linecap="round"
+              stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier">
+              <rect width="24" height="24" fill="white"></rect>
+              <path
+                d="M7 17L16.8995 7.10051"
+                stroke="#000000"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+              <path
+                d="M7 7.00001L16.8995 16.8995"
+                stroke="#000000"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+            </g></svg
+          >
+        </button>
+      </div>
+
+      <div class="tw-text-center">
+        <a class="tw-font-black tw-text-4xl tw-no-underline" href="/"
+          >RUN JOURNAL</a
+        >
+      </div>
+
+      <MonthlyMileage />
+      <p class="tw-my-4">
+        Current VDOT: <b>46</b>
+      </p>
+      <div>
+        <a href="/tags/Event">Grouped Runs</a>
+      </div>
+      <div>
+        <a href="/tags/Workout">All Workouts</a>
+      </div>
+      <div>
+        <a href="/tags/Event">All Events</a>
+      </div>
+    </nav>
+  </div>
+</div>
