@@ -1,0 +1,38 @@
+---
+const allPosts = await Astro.glob("./../pages/runs/**/*.md");
+
+/** sort posts by filename */
+allPosts.sort((a, b) => {
+  // to make sure that latest filename shows up first
+  const [, , yearA, runNumberA] = a.url.split("/");
+  const [, , yearB, runNumberB] = b.url.split("/");
+
+  return (
+    parseInt(`${yearB}${runNumberB.padStart(3, "0")}`) -
+    parseInt(`${yearA}${runNumberA.padStart(3, "0")}`)
+  );
+});
+/** END - sort posts by filename */
+
+const tags = [...new Set(allPosts.map((post) => post.frontmatter.tags).flat())];
+const tagsToRemove = ["Workout", "Event"];
+const filteredTags = tags.filter((tag) => {
+  return tagsToRemove.indexOf(tag) === -1;
+});
+const periodsToShow = 2; //show last 2 grouped runs
+---
+
+<div class="tw-my-4">
+  <h2 class="tw-font-black tw-text-xl">Last 2 Grouped Runs</h2>
+  <div class="tw-grid tw-gap-1">
+    {
+      filteredTags
+        .slice(0, periodsToShow)
+        .map((tag) => <a href={`/tags/${tag}`}>{tag}</a>)
+    }
+  </div>
+
+  <div class="tw-mt-1">
+    <a href="/grouped-runs">See all grouped runs</a>
+  </div>
+</div>
