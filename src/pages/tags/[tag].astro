@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import RunDetails from "../../components/RunDetails.astro";
+import RunSummary from "../../components/RunSummary.astro";
 
 export async function getStaticPaths() {
   const allPosts = await Astro.glob("../runs/**/*.md");
@@ -41,16 +42,17 @@ const runs = posts.map((element) => {
     averagePace: element.frontmatter.averagePace,
     tags: element.frontmatter.tags,
     content: element.compiledContent(),
+    url: element.url,
   };
 });
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-  <div class="tw-container tw-mx-auto tw-px-4">
+  <div class="tw-container tw-mx-auto tw-px-4 tw-mb-8">
     <h1 class="tw-font-black tw-text-4xl tw-mb-2 tw-mt-8">{pageTitle}</h1>
 
     <div class="tw-grid md:tw-grid-cols-2 tw-gap-6">
-      {runs.map((run) => <RunDetails run={run} set:html={run.content} />)}
+      {runs.map((run) => <RunSummary run={run} set:html={run.content} />)}
     </div>
   </div>
 </BaseLayout>

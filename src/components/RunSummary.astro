@@ -1,0 +1,85 @@
+---
+const { run } = Astro.props;
+const options = { dateStyle: "long" };
+const dateObject = new Date(run.date);
+const formattedDate = new Intl.DateTimeFormat("en-PH", options).format(
+  dateObject
+);
+const splittedHours = run.hoursOfSleep.split(":");
+const [hours, minutes] = splittedHours;
+let percentage = (minutes / 60).toFixed(1);
+if (isNaN(percentage)) {
+  percentage = 0;
+}
+const hoursOfSleepPercentage = parseFloat(hours) + parseFloat(percentage);
+
+/** sort posts by filename */
+let allPosts = await Astro.glob("./../pages/runs/**/*.md");
+allPosts.sort((a, b) => {
+  // to make sure that latest filename shows up first
+  const [, , yearA, runNumberA] = a.url.split("/");
+  const [, , yearB, runNumberB] = b.url.split("/");
+
+  return (
+    parseInt(`${yearB}${runNumberB.padStart(3, "0")}`) -
+    parseInt(`${yearA}${runNumberA.padStart(3, "0")}`)
+  );
+});
+/** END - sort posts by filename */
+
+/** Determine previous link and next link of current post */
+const stripTrailingSlash = (str) => {
+  return str.endsWith("/") ? str.slice(0, -1) : str;
+};
+
+const runIndex =
+  Astro.url.pathname === "/"
+    ? 0
+    : allPosts.findIndex((post) => {
+        return post.url === stripTrailingSlash(Astro.url.pathname);
+      });
+
+let previousLink = "";
+try {
+  previousLink = allPosts[runIndex + 1].url;
+} catch (error) {
+  previousLink = false;
+}
+
+let nextLink = "";
+try {
+  nextLink = allPosts[runIndex - 1].url;
+} catch (error) {
+  nextLink = false;
+}
+/** END -  Determine previous link and next link of current post */
+---
+
+<div class="tw-border tw-border-solid tw-border-black tw-p-4">
+  <h2 class="tw-font-black tw-text-2xl tw-mb-8">
+    {run.title} - {formattedDate}
+  </h2>
+  <div class="tw-grid tw-grid-cols-3 tw-mb-4">
+    <div class="tw-text-3xl">
+      {run.timeElapsed}
+      <h3 class="tw-text-sm tw-font-bold">Total Time</h3>
+    </div>
+    <div class="tw-text-3xl">
+      {run.distanceCovered} km
+      <h3 class="tw-text-sm tw-font-bold">Distance</h3>
+    </div>
+    <div class="tw-text-3xl">
+      {run.averagePace} /km
+      <h3 class="tw-text-sm tw-font-bold">Avg Pace</h3>
+    </div>
+  </div>
+
+  <div class="tw-mb-4">
+    <p class="tw-text-3xl">
+      {hoursOfSleepPercentage} Hrs - ({run.hoursOfSleep})
+    </p>
+    <h3 class="tw-text-sm tw-font-bold">Sleep</h3>
+  </div>
+
+  <a href={run.url}>See full details</a>
+</div>
