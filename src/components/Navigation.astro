@@ -23,6 +23,17 @@ import GroupedRunsInHeader from "./GroupedRunsInHeader.astro";
     removeTwHiddenFromNavigation() {
       document.getElementById("navigation").classList.remove("tw-hidden");
     },
+
+    mounted() {
+      this.removeTwHiddenFromNavigation();
+
+      // close nav menu if user presses escape
+      document.addEventListener("keydown", (e) => {
+        if (e.keyCode === 27) {
+          this.closeMenu();
+        }
+      });
+    },
   }).mount("#navigation");
 </script>
 
@@ -60,7 +71,7 @@ import GroupedRunsInHeader from "./GroupedRunsInHeader.astro";
 <div
   id="navigation"
   class="tw-flex tw-content-center tw-items-center tw-ml-4 tw-hidden"
-  @vue:mounted="removeTwHiddenFromNavigation"
+  @vue:mounted="mounted"
 >
   <button class="open-menu-button" @click="openMenu">
     <span></span>
