@@ -33,6 +33,24 @@ import GroupedRunsInHeader from "./GroupedRunsInHeader.astro";
           this.closeMenu();
         }
       });
+
+      document.addEventListener("click", (evt) => {
+        if (evt.target === document.querySelector(".open-menu-button")) {
+          return;
+        }
+
+        const flyoutEl = document.getElementById("navMenu");
+        let targetEl = evt.target; // clicked element
+        do {
+          if (targetEl == flyoutEl) {
+            return;
+          }
+          // Go up the DOM
+          targetEl = targetEl.parentNode;
+        } while (targetEl);
+        // This is a click outside.
+        this.closeMenu();
+      });
     },
   }).mount("#navigation");
 </script>
@@ -78,8 +96,8 @@ import GroupedRunsInHeader from "./GroupedRunsInHeader.astro";
     <span></span>
     <span></span>
   </button>
-  <div v-if="isVisible" class="nav-menu-bg">
-    <nav class="nav-menu">
+  <div v-if="isVisible" class="nav-menu-bg" id="navMenuBg">
+    <nav id="navMenu" class="nav-menu">
       <div class="tw-flex tw-justify-end tw-mb-4">
         <button @click="closeMenu">
           <svg
