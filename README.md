@@ -4,6 +4,12 @@
 
 Journal application to log my runs
 
+## Table of Contents
+
+- [Tech Stack](#tech-stack)
+- [Installation](#installation)
+- [Documents](#documents)
+
 ## Tech stack
 
 1. [Astro](https://astro.build/)
@@ -23,5 +29,11 @@ Journal application to log my runs
 ## Documents
 
 Visit https://github.com/iusiel/run-journal/tree/main/docs to check the documents.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## License
+
+[GNU GENERAL PUBLIC LICENSE Version 3](./LICENSE)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
