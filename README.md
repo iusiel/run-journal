@@ -22,6 +22,6 @@ Journal application to log my runs
 
 ## Documents
 
-Visit https://github.com/iusiel/run-journal/docs to check the documents.
+Visit https://github.com/iusiel/run-journal/tree/main/docs to check the documents.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
