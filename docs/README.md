@@ -1,7 +1,8 @@
-Put links to documentation here
+# Documents
+
+- [Features](./features.md)
 
 # TO-DOS
 
-1. Features explanation
 1. Coding guide
 1. Deployment guide
